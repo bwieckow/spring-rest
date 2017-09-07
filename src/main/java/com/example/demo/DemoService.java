@@ -8,7 +8,9 @@ interface DemoService {
 
     void save(Demo n);
 
-    void delete(Demo n);
+    //void delete(Demo n);
 
     Demo get(String name, String email);
+
+    void delete(String name, String email);
 }

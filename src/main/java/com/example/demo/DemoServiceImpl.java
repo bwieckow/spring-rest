@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DemoServiceImpl implements DemoService {
@@ -26,8 +27,9 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    public void delete(Demo n) {
-        this.demoRepository.delete(n.getId());
+    public void delete(String name, String email) {
+        Demo demo = this.get(name, email);
+        this.demoRepository.delete(demo.getId());
     }
 
     @Override
@@ -35,10 +37,12 @@ public class DemoServiceImpl implements DemoService {
         List<Demo> demoList = this.list();
         Demo demo = null;
         for (Demo singleDemo: demoList) {
-           if (singleDemo.getName() == name && singleDemo.getEmail() == email) {
-               demo = this.demoRepository.getOne(singleDemo.getId());
+           if (Objects.equals(singleDemo.getName(), name) && Objects.equals(singleDemo.getEmail(), email)) {
+               Long id = singleDemo.getId();
+               demo = this.demoRepository.getOne(id);
            }
         }
+
         return demo;
     }
 }

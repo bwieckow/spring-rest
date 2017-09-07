@@ -59,7 +59,8 @@ public class DemoController {
     @ResponseBody
     String deleteUser(@RequestParam String name
             , @RequestParam String email) {
-        this.demoService.delete(this.getSingleUser(name, email));
+        //Demo demo = this.getSingleUser(name, email);
+        this.demoService.delete(name, email);
 
         return "Deleted";
     }
