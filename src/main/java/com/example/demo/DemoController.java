@@ -22,9 +22,10 @@ public class DemoController {
         return ResponseEntity.ok(demoService.list());
     }
 
-    @GetMapping(path="/add") // Map ONLY GET Requests
-    public @ResponseBody
-    String addNewUser (@RequestParam String name
+    @GetMapping(path = "/add") // Map ONLY GET Requests
+    public
+    @ResponseBody
+    String addNewUser(@RequestParam String name
             , @RequestParam String email) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
@@ -36,10 +37,30 @@ public class DemoController {
         return "Saved";
     }
 
-    @GetMapping(path="/all")
-    public @ResponseBody Iterable<Demo> getAllUsers() {
+    @GetMapping(path = "/all")
+    public
+    @ResponseBody
+    Iterable<Demo> getAllUsers() {
         // This returns a JSON or XML with the users
         return demoService.list();
     }
 
+    @GetMapping(path = "/get")
+    public
+    @ResponseBody
+    Demo getSingleUser(@RequestParam String name,
+                       @RequestParam String email) {
+        // This returns a JSON or XML with the users
+        return demoService.get(name, email);
+    }
+
+    @GetMapping(path = "/delete")
+    public
+    @ResponseBody
+    String deleteUser(@RequestParam String name
+            , @RequestParam String email) {
+        this.demoService.delete(this.getSingleUser(name, email));
+
+        return "Deleted";
+    }
 }
