@@ -13,4 +13,6 @@ interface DemoService {
     Demo get(String name, String email);
 
     void delete(String name, String email);
+
+    void update(String name, String email);
 }

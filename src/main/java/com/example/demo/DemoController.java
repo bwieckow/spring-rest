@@ -22,6 +22,15 @@ public class DemoController {
         return ResponseEntity.ok(demoService.list());
     }
 
+    @GetMapping(path = "/get")
+    public
+    @ResponseBody
+    Demo getSingleUser(@RequestParam String name,
+                       @RequestParam String email) {
+        // This returns a JSON or XML with the users
+        return demoService.get(name, email);
+    }
+
     @GetMapping(path = "/add") // Map ONLY GET Requests
     public
     @ResponseBody
@@ -45,15 +54,6 @@ public class DemoController {
         return demoService.list();
     }
 
-    @GetMapping(path = "/get")
-    public
-    @ResponseBody
-    Demo getSingleUser(@RequestParam String name,
-                       @RequestParam String email) {
-        // This returns a JSON or XML with the users
-        return demoService.get(name, email);
-    }
-
     @GetMapping(path = "/delete")
     public
     @ResponseBody
@@ -63,5 +63,13 @@ public class DemoController {
         this.demoService.delete(name, email);
 
         return "Deleted";
+    }
+
+    @GetMapping(path = "/update")
+    public
+    @ResponseBody
+    String updateUser(@RequestParam String name, @RequestParam String email) {
+        //TODO: To write whole method
+        return "Updated";
     }
 }
