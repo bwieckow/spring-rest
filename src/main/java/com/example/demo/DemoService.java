@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.List;
+import java.util.Optional;
 
 interface DemoService {
     //DemoRepository demoRepository = null;
@@ -12,7 +13,11 @@ interface DemoService {
 
     Demo get(String name, String email);
 
+    Demo get(String name);
+
     void delete(String name, String email);
+
+    void delete(Demo demo);
 
     void update(String name, String email);
 }

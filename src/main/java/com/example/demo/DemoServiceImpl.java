@@ -36,6 +36,20 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
+    public Demo get(String name) {
+        List<Demo> demoList = this.list();
+        Demo demo = null;
+        for (Demo singleDemo: demoList) {
+            if (Objects.equals(singleDemo.getName(), name)) {
+                Long id = singleDemo.getId();
+                demo = this.demoRepository.getOne(id);
+            }
+        }
+
+        return demo;
+    }
+
+    @Override
     public void save(Demo n) {
         this.demoRepository.save(n);
     }
@@ -44,6 +58,11 @@ public class DemoServiceImpl implements DemoService {
     public void delete(String name, String email) {
         Demo demo = this.get(name, email);
         this.demoRepository.delete(demo.getId());
+    }
+
+    @Override
+    public void delete(Demo demo) {
+        this.demoRepository.delete(demo);
     }
 
     @Override
