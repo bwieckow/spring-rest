@@ -19,5 +19,5 @@ interface DemoService {
 
     void delete(Demo demo);
 
-    void update(String name, String email);
+    void update(String name, String email, String newName, String newEmail);
 }

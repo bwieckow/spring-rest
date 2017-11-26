@@ -66,7 +66,14 @@ public class DemoServiceImpl implements DemoService {
     }
 
     @Override
-    public void update(String name, String email) {
+    public void update(String name, String email, String newName, String newEmail) {
         //TODO: to write whole method
+        Demo demo = this.get(name, email);
+        this.demoRepository.delete(demo);
+        demo.setName(newName);
+        demo.setEmail(newEmail);
+        demo.setId(demo.getId());
+        System.out.println(demo);
+        this.demoRepository.save(demo);
     }
 }

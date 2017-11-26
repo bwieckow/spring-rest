@@ -3,10 +3,11 @@ package com.example.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.runtime.Log;
 
+import java.io.Console;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/api")
@@ -75,11 +76,7 @@ public class DemoController {
                       @RequestParam String newName,
                       @RequestParam String newEmail) {
         //TODO: To write whole method
-        Demo demo = this.getSingleUser(name, email);
-        this.demoService.delete(demo);
-        demo.setName(newName);
-        demo.setEmail(newEmail);
-        this.demoService.save(demo);
+        this.demoService.update(name, email, newName, newEmail);
 
         return "Updated";
     }
