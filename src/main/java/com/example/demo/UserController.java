@@ -3,35 +3,33 @@ package com.example.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.runtime.Log;
 
-import java.io.Console;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api")
-public class DemoController {
+public class UserController {
 
-    private DemoService demoService;
+    private UserService userService;
 
     @Autowired
-    public DemoController(DemoService demoService) {
-        this.demoService = demoService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    ResponseEntity<List<Demo>> list() {
-        return ResponseEntity.ok(demoService.list());
+    ResponseEntity<List<User>> list() {
+        return ResponseEntity.ok(userService.list());
     }
 
     @GetMapping(path = "/get")
     public
     @ResponseBody
-    Demo getSingleUser(@RequestParam String name,
+    User getSingleUser(@RequestParam String name,
                        @RequestParam String email) {
         // This returns a JSON or XML with the users
-        return demoService.get(name, email);
+        return userService.get(name, email);
     }
 
     @GetMapping(path = "/add") // Map ONLY GET Requests
@@ -42,19 +40,19 @@ public class DemoController {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        Demo n = new Demo();
+        User n = new User();
         n.setName(name);
         n.setEmail(email);
-        demoService.save(n);
+        userService.save(n);
         return "Saved";
     }
 
     @GetMapping(path = "/all")
     public
     @ResponseBody
-    Iterable<Demo> getAllUsers() {
+    Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
-        return demoService.list();
+        return userService.list();
     }
 
     @GetMapping(path = "/delete")
@@ -62,8 +60,7 @@ public class DemoController {
     @ResponseBody
     String deleteUser(@RequestParam String name
             , @RequestParam String email) {
-        //Demo demo = this.getSingleUser(name, email);
-        this.demoService.delete(name, email);
+        this.userService.delete(name, email);
 
         return "Deleted";
     }
@@ -75,8 +72,7 @@ public class DemoController {
                       @RequestParam String email,
                       @RequestParam String newName,
                       @RequestParam String newEmail) {
-        //TODO: To write whole method
-        this.demoService.update(name, email, newName, newEmail);
+        this.userService.update(name, email, newName, newEmail);
 
         return "Updated";
     }
