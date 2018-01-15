@@ -7,6 +7,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/message")
 public class MessageController {
 
@@ -17,18 +18,6 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping(path = "/send")
-    public
-    @ResponseBody
-    String send(@RequestParam String message) {
-        Message newMessage = new Message();
-        newMessage.setText("WIADOMOSC: " + message);
-
-        this.messageService.add(newMessage);
-
-        return "MESSAGE SENT";
-    }
-
     @GetMapping(path = "/displayAll")
     public
     @ResponseBody
@@ -36,13 +25,33 @@ public class MessageController {
         return this.messageService.get();
     }
 
-    @GetMapping(path = "/deleteHistory")
+    @PostMapping(path = "/deleteHistory")
     public
     @ResponseBody
     String deleteHistory() {
         this.messageService.deleteAll();
 
         return "HISTORY DELETED";
+    }
+
+    @PostMapping(path = "/send")
+    public
+    @ResponseBody
+    String send(@RequestParam String message,
+                @RequestParam String userName) {
+        Message newMessage = new Message();
+        newMessage.setText(userName + ": " + message);
+
+        this.messageService.add(newMessage);
+
+        return "MESSAGE SENT";
+    }
+
+    @RequestMapping(path = "/sendJSON", method = RequestMethod.POST) // Map ONLY POST Requests
+    public
+    @ResponseBody
+    void sendJSON(@RequestBody Message message) {
+        messageService.add(message);
     }
 
 }

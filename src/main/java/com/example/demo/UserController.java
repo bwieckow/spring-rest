@@ -5,9 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class UserController {
 
@@ -26,25 +28,10 @@ public class UserController {
     @GetMapping(path = "/get")
     public
     @ResponseBody
-    User getSingleUser(@RequestParam String name,
-                       @RequestParam String email) {
+    User getSingleUser(@RequestParam String name) {
         // This returns a JSON or XML with the users
-        return userService.get(name, email);
-    }
-
-    @GetMapping(path = "/add") // Map ONLY GET Requests
-    public
-    @ResponseBody
-    String addNewUser(@RequestParam String name
-            , @RequestParam String email) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        User n = new User();
-        n.setName(name);
-        n.setEmail(email);
-        userService.save(n);
-        return "Saved";
+        //Optional<String> email1Opt = Optional.ofNullable(email);
+        return userService.get(name);
     }
 
     @GetMapping(path = "/all")
@@ -55,7 +42,32 @@ public class UserController {
         return userService.list();
     }
 
-    @GetMapping(path = "/delete")
+    @RequestMapping(path = "/addJSON", method = RequestMethod.POST) // Map ONLY POST Requests
+    public
+    @ResponseBody
+    String addNewUserJSON(@RequestBody User user) {
+        userService.save(user);
+        return "JSON SAVED";
+    }
+
+    @PostMapping(path = "/add") // Map ONLY POST Requests
+    public
+    @ResponseBody
+    String addNewUser(@RequestParam String name
+            , @RequestParam String email
+            , @RequestParam String password) {
+        // @ResponseBody means the returned String is the response, not a view name
+        // @RequestParam means it is a parameter from the GET or POST request
+
+        User n = new User();
+        n.setName(name);
+        n.setEmail(email);
+        n.setPassword(password);
+        userService.save(n);
+        return "Saved";
+    }
+
+    @PostMapping(path = "/delete")
     public
     @ResponseBody
     String deleteUser(@RequestParam String name
@@ -65,7 +77,7 @@ public class UserController {
         return "Deleted";
     }
 
-    @GetMapping(path = "/update")
+    @PostMapping(path = "/update")
     public
     @ResponseBody
     String updateUser(@RequestParam String name,
